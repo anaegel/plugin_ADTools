@@ -1,4 +1,4 @@
-# external_Autodiff
+# plugin_ADTools
 External tools for AutoDiff
 
 1) clone into $UG4_ROOT/externals
