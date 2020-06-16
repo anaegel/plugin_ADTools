@@ -7,7 +7,7 @@ project(UG_PLUGIN_${pluginName})
 # Include the definitions and dependencies for ug-plugins.
 include(${UG_ROOT_CMAKE_PATH}/ug_plugin_includes.cmake)
 
-# Create configure
+# Create custom configure.
 add_custom_target(
   adolc-autoconf
   ${SHELL_EXECUTABLE} autoreconf -fi
@@ -15,17 +15,20 @@ add_custom_target(
 )
 
 # External configure, make & install
+# The following lines install the library to $UG4_ROOT/lib.
 # TODO: Adjust CC and CXX
 ExternalProject_Add(adolc-external
     SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/adol-c
+   
     #--Configure step-------------
-   	# CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/adol-c/configure --includedir=${CMAKE_CURRENT_SOURCE_DIR}/include 
    	CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/adol-c/configure --includedir=${CMAKE_CURRENT_SOURCE_DIR}/include --libdir=${CMAKE_ARCHIVE_OUTPUT_DIRECTORY} 
+   
    	#--Build step-----------------
     BUILD_COMMAND ${MAKE}
+    
     #--Install step---------------
-    #  BUILD_COMMAND ${MAKE} install
-  	# INSTALL_DIR ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+  	# INSTALL_DIR ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY} # Instgall 
+  	# BUILD_COMMAND ${MAKE} install
 )
 
 add_dependencies(adolc-external adolc-autoconf)
